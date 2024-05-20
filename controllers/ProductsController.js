@@ -70,16 +70,27 @@ export const getOne = async (req, res) => {
     }
 }
 export const getAll = async (req, res) => {
+    // try {
+    //     const { _page = 1, _limit = 8 } = req.query;
+    //     const skip = (parseInt(_page) - 1) * parseInt(_limit);
+    //     const products = await ProductModel.find().skip(skip).limit(parseInt(_limit));
+    //     res.json(products);
+    //   } catch (err) {
+    //     console.log(err);
+    //     res.status(500).json({
+    //       message: 'Не удалось получить товары',
+    //     });
+    //   }
     try {
-        const { _page = 1, _limit = 8 } = req.query;
-        const skip = (parseInt(_page) - 1) * parseInt(_limit);
-        const products = await ProductModel.find().skip(skip).limit(parseInt(_limit));
+        const { q, _page = 1 } = req.query;
+        const regex = new RegExp(q, 'i'); // Создаем регулярное выражение для поиска без учета регистра
+        const products = await Product.find({ name: regex })
+          .skip((parseInt(_page) - 1) * 4)
+          .limit(4);
         res.json(products);
       } catch (err) {
-        console.log(err);
-        res.status(500).json({
-          message: 'Не удалось получить товары',
-        });
+        console.error(err);
+        res.status(500).json({ message: 'Internal Server Error' });
       }
 }
 
