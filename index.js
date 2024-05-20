@@ -48,9 +48,14 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
   });
 });
 
+app.get('/products', async (req, res) => {
+  const { _page = 1, _limit = 4 } = req.query;
+  const skip = (parseInt(_page) - 1) * parseInt(_limit);
+  const products = await Product.find().skip(skip).limit(parseInt(_limit));
+  res.json(products);
+});
 app.get('/tags', ProductsController.getLastTags);
 app.get('/tags/:tag', ProductsController.getForTags);
-app.get('/products', ProductsController.getAll);
 app.get('/products/tags', ProductsController.getLastTags);
 app.get('/products/:id', ProductsController.getOne);
 app.post('/products', checkAuth, ProductsCreateValidation, handleValidationErrors, ProductsController.create);
