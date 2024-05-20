@@ -71,19 +71,19 @@ export const getOne = async (req, res) => {
 }
 
 
-export const getAll = async (req,res ) =>{
-    try{
-        const { _page = 1, _limit = 4 } = req.query;
-        const skip = (parseInt(_page) - 1) * parseInt(_limit);
-        const products = await Product.find().skip(skip).limit(parseInt(_limit));
-        res.json(products);
-    }catch(err){
-        console.log(err);
-        res.status(500).json({
-            message: 'ne udalos piluchit statii'
-        });
+exports.getAll = async (req, res) => {
+    try {
+      const { _page = 1, _limit = 4 } = req.query;
+      const skip = (parseInt(_page) - 1) * parseInt(_limit);
+      const products = await Product.find().skip(skip).limit(parseInt(_limit));
+      res.json(products);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Не удалось получить товары',
+      });
     }
-}
+  };
 
 export const getForTags = async (req, res) => {
     try {
