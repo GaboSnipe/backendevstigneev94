@@ -84,7 +84,7 @@ export const getAll = async (req, res) => {
     try {
         const { q, _page = 1 } = req.query;
         const regex = new RegExp(q, 'i'); // Создаем регулярное выражение для поиска без учета регистра
-        const products = await Product.find({ name: regex })
+        const products = await ProductModel.find({ name: regex })
           .skip((parseInt(_page) - 1) * 4)
           .limit(4);
         res.json(products);
