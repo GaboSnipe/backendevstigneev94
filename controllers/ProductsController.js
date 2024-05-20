@@ -73,8 +73,9 @@ export const getOne = async (req, res) => {
 
 export const getAll = async (req,res ) =>{
     try{
-        const products = await ProductModel.find()
-
+        const { _page = 1, _limit = 4 } = req.query;
+        const skip = (parseInt(_page) - 1) * parseInt(_limit);
+        const products = await Product.find().skip(skip).limit(parseInt(_limit));
         res.json(products);
     }catch(err){
         console.log(err);
