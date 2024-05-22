@@ -57,6 +57,64 @@ export const register = async (req, res) => {
     });
   }
 };
+export const wishupd = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const newItemId = req.body.item; // Получаем только идентификатор элемента
+    await UserModel.findByIdAndUpdate(userId, { $push: { userWishlist: newItemId } });
+
+    res.status(200).send('Элемент добавлен в список желаний');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Произошла ошибка при обновлении списка желаний');
+  }
+}
+export const wishdl = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const itemIdToRemove = req.body.item; // Получаем только идентификатор элемента
+
+    await UserModel.findByIdAndUpdate(
+      userId,
+      { $pull: { userWishlist: itemIdToRemove } }
+    );
+
+    res.status(200).send('Элемент удален из списка желаний');
+  } catch (error) {
+    console.error('Ошибка при удалении элемента из списка желаний:', error);
+    res.status(500).send('Произошла ошибка при обновлении списка желаний');
+  }
+}
+export const cartupd = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const newItemId = req.body.item; // Получаем только идентификатор элемента
+    await UserModel.findByIdAndUpdate(userId, { $push: { userWishlist: newItemId } });
+
+    res.status(200).send('Элемент добавлен в список желаний');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Произошла ошибка при обновлении списка желаний');
+  }
+}
+export const cartdl = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const itemIdToRemove = req.body.item; // Получаем только идентификатор элемента
+
+    await UserModel.findByIdAndUpdate(
+      userId,
+      { $pull: { userWishlist: itemIdToRemove } }
+    );
+
+    res.status(200).send('Элемент удален из списка желаний');
+  } catch (error) {
+    console.error('Ошибка при удалении элемента из списка желаний:', error);
+    res.status(500).send('Произошла ошибка при обновлении списка желаний');
+  }
+}
+
+
 export const update = async (req, res) => {
   try {
     const existingEmailUser = await UserModel.findOne({ email: req.body.email });
@@ -79,9 +137,6 @@ export const update = async (req, res) => {
       phone: req.body.phone, 
       address: req.body.address, 
       avatarUrl: req.body.avatarUrl, 
-      roles: [],
-      userWishlist: [],
-      cartitems: []
     }, { new: true }); 
     
     if (!updatedUser) {

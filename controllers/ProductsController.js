@@ -69,37 +69,60 @@ export const getOne = async (req, res) => {
         });
     }
 }
+
 export const getAll = async (req, res) => {
-    // try {
-    //     const { _page = 1, _limit = 8 } = req.query;
-    //     const skip = (parseInt(_page) - 1) * parseInt(_limit);
-    //     const products = await ProductModel.find().skip(skip).limit(parseInt(_limit));
-    //     res.json(products);
-    //   } catch (err) {
-    //     console.log(err);
-    //     res.status(500).json({
-    //       message: 'Не удалось получить товары',
-    //     });
-    //   }
     try {
-        const { q, _page = 1 } = req.query;
-        const regex = new RegExp(q, 'i'); // Создаем регулярное выражение для поиска без учета регистра
-        const products = await ProductModel.find({ name: regex })
-          .skip((parseInt(_page) - 1) * 4)
-          .limit(4);
-        res.json(products);
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal Server Error' });
+      const { q, category, brandName, price, isInStock, _start = 0, _limit = 10 } = req.query;
+  
+      let query = {};
+  
+      // Фильтр по названию
+      if (q) {
+        query.name = new RegExp(q, 'i');
       }
-}
+  
+      // Фильтр по категории
+      if (category && category !== 'все') {
+        query.category = category;
+      }
+  
+      // Фильтр по бренду
+      if (brandName && brandName !== 'все') {
+        query.brandName = brandName;
+      }
+  
+      // Фильтр по цене (только максимальная цена)
+      if (price) {
+        const maxPrice = Number(price);
+        if (!isNaN(maxPrice)) {
+          query.price = { $lte: maxPrice };
+        }
+      }
+  
+      // Фильтр по наличию на складе
+      if (isInStock == '') {
+        query.isInStock = true;
+      }
+  
+      const skip = parseInt(_start);
+      const limit = parseInt(_limit);
+      const products = await ProductModel.find(query)
+        .skip(skip)
+        .limit(limit);
+  
+      res.json(products);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
 
 
 export const getForTags = async (req, res) => {
     try {
         const { tag } = req.params;
         const products = await ProductModel.find({ tags: tag });
-        console.log(products);
         res.json(products);
     } catch (err) {
         console.log(err);

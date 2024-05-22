@@ -10,7 +10,9 @@ import { registerValidation, loginValidation, ProductsCreateValidation } from '.
 import { handleValidationErrors, checkAuth } from './utils/index.js';
 import { UserController, ProductsController } from './controllers/index.js';
 mongoose    
-     .connect(process.env.MONGODB_URI)
+     .connect("mongodb+srv://Gaboben_Veliki:2I3b6WceGwO9W3SP@cluster0.hj3cri7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+    //  process.env.MONGODB_URI
+    //  mongodb+srv://Gaboben_Veliki:2I3b6WceGwO9W3SP@cluster0.hj3cri7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
      .then(() => console.log('DB ok'))
      .catch((err) => console.log('DB error', err));
 
@@ -38,6 +40,10 @@ app.post('/auth/login', loginValidation, handleValidationErrors, UserController.
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getMe);
 app.put('/user/:id',  registerValidation, handleValidationErrors, UserController.update);
+app.post('/users/:id/wishlist', UserController.wishupd);
+app.put('/users/:id/wishlist/remove', UserController.wishdl);
+app.post('/users/:id/cart', UserController.cartupd);
+app.put('/users/:id/cart/remove', UserController.cartdl);
 
 
 
