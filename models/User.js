@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
         avatarUrl:  { type: String},
         roles: [{ type: String, ref: 'Role' }],
         userWishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-        cartitems: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+        cartitems: [{ type: Object, ref: 'Product' }]
     }, 
     {
         timestamps: true,

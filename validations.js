@@ -11,7 +11,6 @@ export const registerValidation = [
     body('name', 'Укажите имя').isLength({ min: 2 }),
     body('lastname', 'Укажите фамилию').isLength({ min: 3 }),
     body('phone', 'Укажите номер').isLength({ min: 3 }),
-    body('avatarUrl', 'Неверная ссылка на аватарку').optional().isString(),
 
 ];
 
@@ -29,4 +28,11 @@ export const ProductsCreateValidation = [
     body('additionalImageUrls', 'Неверная ссылка на kartinku').optional().isArray(),
 
 
+];
+export const OrderCreateValidation = [
+    body('userId', 'vvedite nazvanie tovatra'),
+    body('orderStatus', 'vvedite opisanie tovara'),
+    body('cartItems', 'vvedite cenu'),
+    body('formData', 'neverni format tegov'),
+    body('selectedItem', 'neverni format tegov'),
 ];

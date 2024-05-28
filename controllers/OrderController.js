@@ -1,8 +1,8 @@
-import ProductModel from '../models/Products.js'
+import OrdersModel from '../models/Orders.js'
 
 export const getLastcategories = async (req, res) => {
     try {
-        const products = await ProductModel.find().exec();
+        const products = await OrdersModel.find().exec();
 
         let categorySet = new Set();
         products.forEach((product) => {
@@ -21,7 +21,7 @@ export const getLastcategories = async (req, res) => {
 };
 export const getMaxPrice = async (req, res) => {
     try {
-      const maxPriceProduct = await ProductModel.findOne().sort({ price: -1 }).exec();
+      const maxPriceProduct = await OrdersModel.findOne().sort({ price: -1 }).exec();
       if (!maxPriceProduct) {
         return res.status(404).json({ message: 'Продукты не найдены' });
       }
@@ -35,7 +35,7 @@ export const getMaxPrice = async (req, res) => {
   };
 export const getLastbrands = async (req, res) => {
     try {
-        const products = await ProductModel.find().exec();
+        const products = await OrdersModel.find().exec();
 
         let brandSet = new Set();
         products.forEach((product) => {
@@ -57,7 +57,7 @@ export const remove = async (req, res) => {
     try {
         const productId = req.params.id;
 
-        const doc = await ProductModel.findOneAndDelete({ _id: productId });
+        const doc = await OrdersModel.findOneAndDelete({ _id: productId });
 
         if (!doc) {
             return res.status(404).json({
@@ -80,7 +80,7 @@ export const remove = async (req, res) => {
 export const getOne = async (req, res) => {
     try {
         const productId = req.params.id;
-        const doc = await ProductModel.findOneAndUpdate(
+        const doc = await OrdersModel.findOneAndUpdate(
             { _id: productId },
             { $inc: { viewsCount: 1 } },
             { returnDocument: 'after' }
@@ -102,57 +102,21 @@ export const getOne = async (req, res) => {
 
 export const getAll = async (req, res) => {
     try {
-      const { q, category, brandName, price, isInStock, _start = 0, _limit = 10 } = req.query;
-  
-      let query = {};
-  
-      // Фильтр по названию
-      if (q) {
-        query.name = new RegExp(q, 'i');
-      }
-  
-      // Фильтр по категории
-      if (category && category !== 'все') {
-        query.category = category;
-      }
-  
-      // Фильтр по бренду
-      if (brandName && brandName !== 'все') {
-        query.brandName = brandName;
-      }
-  
-      // Фильтр по цене (только максимальная цена)
-      if (price) {
-        const maxPrice = Number(price);
-        if (!isNaN(maxPrice)) {
-          query.price = { $lte: maxPrice };
-        }
-      }
-  
-      // Фильтр по наличию на складе
-      if (isInStock == '') {
-        query.isInStock = true;
-      }
-  
-      const skip = parseInt(_start);
-      const limit = parseInt(_limit);
-      const products = await ProductModel.find(query)
-        .skip(skip)
-        .limit(limit);
-  
-      res.json(products);
+      const orders = await OrdersModel.find();
+      res.json(orders);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
+  
 
 
 
 export const getForTags = async (req, res) => {
     try {
         const { tag } = req.params;
-        const products = await ProductModel.find({ tags: tag });
+        const products = await OrdersModel.find({ tags: tag });
         res.json(products);
     } catch (err) {
         console.log(err);
@@ -166,19 +130,12 @@ export const getForTags = async (req, res) => {
 
 export const create = async (req, res) => {
     try{
-        const doc = new ProductModel({
-            name: req.body.name,
-            description: req.body.description,
-            isInStock: req.body.isInStock,
-            category: req.body.category,
-            availableSizes: req.availableSizes,
-            reviews: req.reviews,
-            produtionDate: req.produtionDate,
-            brandName: req.brandName,
-            productCode: req.productCode,
-            imageUrl: req.imageUrl,
-            price: req.price,
-            additionalImageUrls: req.additionalImageUrls,
+        const doc = new OrdersModel({
+            userId: req.body.userId,
+            orderStatus: req.body.orderStatus,
+            cartItems: req.body.cartItems,
+            formData: req.body.formData,
+            selectedItem: req.body.selectedItem,
         })
 
         const product = await doc.save();
@@ -195,7 +152,7 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const productId = req.params.id;
-        await ProductModel.updateOne({
+        await OrdersModel.updateOne({
             _id: productId,
         },{
             title: req.body.title,

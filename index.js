@@ -5,12 +5,12 @@ import cors from 'cors';
 
 import mongoose from 'mongoose';
 
-import { registerValidation, loginValidation, ProductsCreateValidation } from './validations.js';
+import { registerValidation, loginValidation, ProductsCreateValidation, OrderCreateValidation } from './validations.js';
 
 import { handleValidationErrors, checkAuth } from './utils/index.js';
-import { UserController, ProductsController } from './controllers/index.js';
+import { UserController, ProductsController, OrdersController } from './controllers/index.js';
 mongoose    
-     .connect("mongodb+srv://Gaboben_Veliki:2I3b6WceGwO9W3SP@cluster0.hj3cri7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+     .connect(process.env.MONGODB_URI)
     //  process.env.MONGODB_URI
     //  mongodb+srv://Gaboben_Veliki:2I3b6WceGwO9W3SP@cluster0.hj3cri7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
      .then(() => console.log('DB ok'))
@@ -44,6 +44,10 @@ app.post('/users/:id/wishlist', UserController.wishupd);
 app.put('/users/:id/wishlist/remove', UserController.wishdl);
 app.post('/users/:id/cart', UserController.cartupd);
 app.put('/users/:id/cart/remove', UserController.cartdl);
+app.delete('/clear-cart/:id', UserController.cartclr);
+app.post('/user/checkmailstart', UserController.checkmailstart);
+app.post('/user/checkmailend', UserController.checkmailend);
+
 
 
 
@@ -55,14 +59,23 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 });
 
 
-app.get('/tags', ProductsController.getLastTags);
-app.get('/tags/:tag', ProductsController.getForTags);
+
+
+
+app.get('/categories', ProductsController.getLastcategories);
+app.get('/brands', ProductsController.getLastbrands);
+app.get('/max-price', ProductsController.getMaxPrice);
+// app.get('/tags', ProductsController.getLastTags);
+// app.get('/tags/:tag', ProductsController.getForTags);
 app.get('/products', ProductsController.getAll);
-app.get('/products/tags', ProductsController.getLastTags);
+app.get('/orders', OrdersController.getAll);
+// app.get('/products/tags', ProductsController.getLastTags);
 app.get('/products/:id', ProductsController.getOne);
 app.post('/products', checkAuth, ProductsCreateValidation, handleValidationErrors, ProductsController.create);
+app.post('/orders', checkAuth, OrderCreateValidation, handleValidationErrors, OrdersController.create);
 app.delete('/products/:id', checkAuth, ProductsController.remove);
 app.patch('/products/:id',checkAuth,ProductsCreateValidation,handleValidationErrors,ProductsController.update,);
+
 
 app.listen(process.env.PORT || 8080, (err) => {
   if (err) {
