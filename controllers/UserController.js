@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import UserModel from '../models/User.js';
 
-const DATA_DIR = './data';
+const DATA_DIR = '/tmp/data';
 
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR);
