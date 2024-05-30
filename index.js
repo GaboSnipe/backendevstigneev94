@@ -33,7 +33,11 @@ const upload = multer({ storage });
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://frontevstigneev94.vercel.app'
+  origin: [
+    'https://frontevstigneev94.vercel.app',
+    'https://frontevstigneev94-git-main-gabos-projects-936e8025.vercel.app/',
+    'https://frontevstigneev94-6owqoidp1-gabos-projects-936e8025.vercel.app/'
+  ]
 }));
 app.use('/uploads', express.static('uploads'));
 
