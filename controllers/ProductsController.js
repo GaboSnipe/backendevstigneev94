@@ -221,35 +221,53 @@ export const update = async (req, res) => {
 export const createReview = async (req, res) => {
     const { productId } = req.params;
     const { rating, reviewTitle, reviewText, userId, date } = req.body;
-
+  
     // Проверка наличия всех обязательных полей в теле запроса
     if (!rating || !reviewTitle || !reviewText || !userId || !date) {
-        return res.status(400).json({
-            success: false,
-            message: 'Отсутствуют обязательные поля в запросе',
-        });
+      return res.status(400).json({
+        success: false,
+        message: 'Отсутствуют обязательные поля в запросе',
+      });
     }
-
+  
+    // Проверка уникальности отзыва
+    const existingReview = await ReviewModel.findOne({ productId, userId });
+    if (existingReview) {
+      return res.status(400).json({
+        success: false,
+        message: 'Отзыв от данного пользователя уже существует',
+      });
+    }
+  
     try {
-
-
-        // Создание нового отзыва и добавление его к существующим отзывам продукта
-        await ProductModel.findByIdAndUpdate(
-            productId,
-            { $push: { reviews: req.body } },
-            { new: true }
-        );
-
-        res.json({
-            success: true,
-            message: 'Отзыв успешно создан',
-        });
+      // Создание нового отзыва
+      const newReview = new ReviewModel({
+        productId,
+        userId,
+        rating,
+        reviewTitle,
+        reviewText,
+        date,
+      });
+  
+      // Сохранение отзыва в БД
+      await newReview.save();
+  
+      // Обновление документа продукта
+      await ProductModel.findByIdAndUpdate(productId, {
+        $push: { reviews: newReview._id },
+      });
+  
+      res.json({
+        success: true,
+        message: 'Отзыв успешно создан',
+      });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: 'Произошла ошибка при создании отзыва',
-            error: error.message,
-        });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: 'Произошла ошибка при создании отзыва',
+        error: error.message,
+      });
     }
-};
+  };
