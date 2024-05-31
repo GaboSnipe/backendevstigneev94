@@ -241,14 +241,14 @@ export const createReview = async (req, res) => {
   
     try {
       // Создание нового отзыва
-      const newReview = new ReviewModel({
+      const newReview = {
         productId,
         userId,
         rating,
         reviewTitle,
         reviewText,
         date,
-      });
+    };
       await newReview.save();
       await ProductModel.findByIdAndUpdate(productId, {
         $push: { reviews: newReview._id },
