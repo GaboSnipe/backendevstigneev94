@@ -73,7 +73,7 @@ app.get('/products', ProductsController.getAll);
 app.get('/orders', OrdersController.getAll);
 app.get('/orders/:id', OrdersController.getuserorder);
 app.get('/products/:id', ProductsController.getOne);
-app.post('/products/:id', ProductsController.createReview);
+app.post('/products/:id',checkAuth, ProductsController.createReview);
 app.post('/products', checkAuth, ProductsCreateValidation, handleValidationErrors, ProductsController.create);
 app.post('/orders', checkAuth, OrderCreateValidation, handleValidationErrors, OrdersController.create);
 app.delete('/products/:id', checkAuth, ProductsController.remove);

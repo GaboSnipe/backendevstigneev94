@@ -222,7 +222,7 @@ export const createReview = async (req, res) => {
     const { productId } = req.params;
     const { rating, reviewTitle, reviewText, userId, date } = req.body;
     try {    
-        await ProductModel.findByIdAndUpdate(productId, { $push: { reviews : newItemId } });
+        await ProductModel.findByIdAndUpdate(productId, { $push: { reviews : req.body } });
         res.json({
             success: true,
             message: 'Отзыв успешно создан',
