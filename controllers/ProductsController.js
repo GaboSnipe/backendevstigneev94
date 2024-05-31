@@ -221,7 +221,7 @@ export const update = async (req, res) => {
 
 
 export const createReview = async (req, res) => {
-    const { productId } = req.params.id;
+    const { productId } = req.params;
     const { rating, reviewTitle, reviewText, userId, date } = req.body;
   
     // Проверка наличия всех обязательных полей в теле запроса
