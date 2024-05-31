@@ -232,20 +232,9 @@ export const createReview = async (req, res) => {
     }
   
     try {
-      // Создание нового отзыва
-      const newReview = new ReviewModel({
-        productId,
-        userId,
-        rating,
-        reviewTitle,
-        reviewText,
-        date,
-      });
-      await newReview.save();
-  
       // Обновление продукта с добавлением нового отзыва
       await ProductModel.findByIdAndUpdate(productId, {
-        $push: { reviews: newReview },
+        $push: { reviews: req.body },
       });
   
       res.json({
@@ -260,4 +249,4 @@ export const createReview = async (req, res) => {
         error: error.message,
       });
     }
-};
+  };
