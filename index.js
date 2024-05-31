@@ -41,6 +41,7 @@ app.use('/uploads', express.static('uploads'));
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login);
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getMe);
+app.get('/user/:id', UserController.getWho);
 app.put('/user/:id',  registerValidation, handleValidationErrors, UserController.update);
 app.get('/users',  checkAuth, UserController.getAll);
 app.post('/users/:id/wishlist', UserController.wishupd);
