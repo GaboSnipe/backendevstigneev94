@@ -1,4 +1,5 @@
 import ProductModel from '../models/Products.js'
+import ProductModel from '../models/Review.js'
 
 export const getLastcategories = async (req, res) => {
     try {
@@ -218,6 +219,7 @@ export const update = async (req, res) => {
     }
 }
 
+
 export const createReview = async (req, res) => {
     const { productId } = req.params;
     const { rating, reviewTitle, reviewText, userId, date } = req.body;
@@ -230,26 +232,28 @@ export const createReview = async (req, res) => {
       });
     }
   
-    // Проверка уникальности отзыва
-    const existingReview = await ProductModel.findOne({ productId, userId });
-    if (existingReview) {
-      return res.status(400).json({
-        success: false,
-        message: 'Отзыв от данного пользователя уже существует',
-      });
-    }
-  
     try {
+      // Проверка уникальности отзыва
+      const existingReview = await ReviewModel.findOne({ productId, userId });
+      if (existingReview) {
+        return res.status(400).json({
+          success: false,
+          message: 'Отзыв от данного пользователя уже существует',
+        });
+      }
+  
       // Создание нового отзыва
-      const newReview = {
+      const newReview = new ReviewModel({
         productId,
         userId,
         rating,
         reviewTitle,
         reviewText,
         date,
-    };
+      });
       await newReview.save();
+  
+      // Обновление продукта с добавлением нового отзыва
       await ProductModel.findByIdAndUpdate(productId, {
         $push: { reviews: newReview._id },
       });
@@ -266,4 +270,4 @@ export const createReview = async (req, res) => {
         error: error.message,
       });
     }
-  };
+};
