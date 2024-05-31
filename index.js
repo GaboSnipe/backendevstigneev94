@@ -71,6 +71,7 @@ app.get('/max-price', ProductsController.getMaxPrice);
 // app.get('/tags/:tag', ProductsController.getForTags);
 app.get('/products', ProductsController.getAll);
 app.get('/orders', OrdersController.getAll);
+app.get('/orders/:id', OrdersController.getuserorder);
 // app.get('/products/tags', ProductsController.getLastTags);
 app.get('/products/:id', ProductsController.getOne);
 app.post('/products', checkAuth, ProductsCreateValidation, handleValidationErrors, ProductsController.create);
