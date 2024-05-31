@@ -197,6 +197,17 @@ export const cartupd = async (req, res) => {
     res.status(500).send('Произошла ошибка при обновлении списка желаний');
   }
 }
+export const makeAdmin = async (req, res) => {
+  try {
+    const userId = req.params.id; // Здесь должно быть params.id, а не params._id
+    await UserModel.findByIdAndUpdate(userId, { $push: { roles: 'ADMIN' } });
+    res.status(200).send('Пользователь успешно сделан администратором');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Произошла ошибка при добавлении роли администратора');
+  }
+};
+
 export const update = async (req, res) => {
   try {
     const existingEmailUser = await UserModel.findOne({ email: req.body.email });

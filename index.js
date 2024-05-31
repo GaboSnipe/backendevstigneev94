@@ -46,6 +46,7 @@ app.get('/users',  checkAuth, UserController.getAll);
 app.post('/users/:id/wishlist', UserController.wishupd);
 app.put('/users/:id/wishlist/remove', UserController.wishdl);
 app.post('/users/:id/cart', UserController.cartupd);
+app.post('/users/:id/admin', UserController.makeAdmin);
 app.put('/users/:id/cart/remove', UserController.cartdl);
 app.delete('/clear-cart/:id', UserController.cartclr);
 app.post('/user/checkmailstart', UserController.checkmailstart);
