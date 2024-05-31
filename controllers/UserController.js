@@ -10,6 +10,15 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR);
 }
 
+export const getAll = async (req, res) => {
+  try {
+    const User = await UserModel.find();
+    res.json(User);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 const saveData = async (filename, data) => {
   const filePath = `${DATA_DIR}/${filename}.json`;
   await fs.promises.writeFile(filePath, JSON.stringify(data));
