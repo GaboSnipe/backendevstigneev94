@@ -1,5 +1,4 @@
 import ProductModel from '../models/Products.js'
-import ReviewModel from '../models/Review.js'
 
 export const getLastcategories = async (req, res) => {
     try {
@@ -233,15 +232,6 @@ export const createReview = async (req, res) => {
     }
   
     try {
-      // Проверка уникальности отзыва
-      const existingReview = await ReviewModel.findOne({ productId, userId });
-      if (existingReview) {
-        return res.status(400).json({
-          success: false,
-          message: 'Отзыв от данного пользователя уже существует',
-        });
-      }
-  
       // Создание нового отзыва
       const newReview = new ReviewModel({
         productId,
@@ -255,7 +245,7 @@ export const createReview = async (req, res) => {
   
       // Обновление продукта с добавлением нового отзыва
       await ProductModel.findByIdAndUpdate(productId, {
-        $push: { reviews: newReview._id },
+        $push: { reviews: newReview },
       });
   
       res.json({
