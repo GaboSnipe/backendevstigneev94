@@ -231,7 +231,7 @@ export const createReview = async (req, res) => {
     }
   
     // Проверка уникальности отзыва
-    const existingReview = await ReviewModel.findOne({ productId, userId });
+    const existingReview = await ProductModel.findOne({ productId, userId });
     if (existingReview) {
       return res.status(400).json({
         success: false,
@@ -249,11 +249,7 @@ export const createReview = async (req, res) => {
         reviewText,
         date,
       });
-  
-      // Сохранение отзыва в БД
       await newReview.save();
-  
-      // Обновление документа продукта
       await ProductModel.findByIdAndUpdate(productId, {
         $push: { reviews: newReview._id },
       });
