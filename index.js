@@ -69,13 +69,11 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 app.get('/categories', ProductsController.getLastcategories);
 app.get('/brands', ProductsController.getLastbrands);
 app.get('/max-price', ProductsController.getMaxPrice);
-// app.get('/tags', ProductsController.getLastTags);
-// app.get('/tags/:tag', ProductsController.getForTags);
 app.get('/products', ProductsController.getAll);
 app.get('/orders', OrdersController.getAll);
 app.get('/orders/:id', OrdersController.getuserorder);
-// app.get('/products/tags', ProductsController.getLastTags);
 app.get('/products/:id', ProductsController.getOne);
+app.post('/products/:id', ProductsController.createReview);
 app.post('/products', checkAuth, ProductsCreateValidation, handleValidationErrors, ProductsController.create);
 app.post('/orders', checkAuth, OrderCreateValidation, handleValidationErrors, OrdersController.create);
 app.delete('/products/:id', checkAuth, ProductsController.remove);

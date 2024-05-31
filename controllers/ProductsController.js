@@ -53,6 +53,8 @@ export const getLastbrands = async (req, res) => {
     }
 };
 
+
+
 export const remove = async (req, res) => {
     try {
         const productId = req.params.id;
@@ -212,6 +214,25 @@ export const update = async (req, res) => {
         console.log(err);
         res.status(500).json({
             massage: 'nu ibnovitca'
+        });
+    }
+}
+
+export const createReview = async (req, res) => {
+    const { productId } = req.params;
+    const { rating, reviewTitle, reviewText, userId, date } = req.body;
+    try {    
+        await ProductModel.findByIdAndUpdate(productId, { $push: { reviews : newItemId } });
+        res.json({
+            success: true,
+            message: 'Отзыв успешно создан',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: 'Произошла ошибка при создании отзыва',
+            error: error.message,
         });
     }
 }
