@@ -231,14 +231,7 @@ export const createReview = async (req, res) => {
     }
 
     try {
-        // Проверка существования продукта с указанным productId
-        const existingProduct = await ProductModel.findById(productId);
-        if (!existingProduct) {
-            return res.status(404).json({
-                success: false,
-                message: 'Продукт с указанным ID не найден',
-            });
-        }
+
 
         // Создание нового отзыва и добавление его к существующим отзывам продукта
         await ProductModel.findByIdAndUpdate(
