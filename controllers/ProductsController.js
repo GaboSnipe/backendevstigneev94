@@ -221,14 +221,17 @@ export const update = async (req, res) => {
 export const createReview = async (req, res) => {
     const { productId } = req.params;
     const { rating, reviewTitle, reviewText, userId, date } = req.body;
-        if (!rating || !reviewTitle || !reviewText || !userId || !date) {
+
+    // Проверка наличия всех обязательных полей в теле запроса
+    if (!rating || !reviewTitle || !reviewText || !userId || !date) {
         return res.status(400).json({
             success: false,
             message: 'Отсутствуют обязательные поля в запросе',
         });
     }
 
-    try {    
+    try {
+        // Проверка существования продукта с указанным productId
         const existingProduct = await ProductModel.findById(productId);
         if (!existingProduct) {
             return res.status(404).json({
@@ -236,11 +239,14 @@ export const createReview = async (req, res) => {
                 message: 'Продукт с указанным ID не найден',
             });
         }
+
+        // Создание нового отзыва и добавление его к существующим отзывам продукта
         await ProductModel.findByIdAndUpdate(
-            productId, 
-            { $push: { reviews: req.body } }, 
+            productId,
+            { $push: { reviews: req.body } },
             { new: true }
         );
+
         res.json({
             success: true,
             message: 'Отзыв успешно создан',
