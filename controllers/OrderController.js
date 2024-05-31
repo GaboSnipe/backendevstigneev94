@@ -113,8 +113,8 @@ export const getAll = async (req, res) => {
 export const getuserorder = async (req, res) => {
     const userId = req.params.id;
     try {
-        const userForms = await FormModel.find({ user_id: userId });
-        res.json(userForms);
+        const orders = await OrdersModel.find({ userId: userId });
+        res.json(orders);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Internal Server Error' });
