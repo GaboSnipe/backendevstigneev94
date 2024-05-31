@@ -232,7 +232,7 @@ export const createReview = async (req, res) => {
 
     try {    
         // Проверка существования продукта с указанным productId
-        const existingProduct = await ProductModel.findById(productId);
+        const existingProduct = await ProductModel.findOne(productId);
         if (!existingProduct) {
             return res.status(404).json({
                 success: false,
@@ -241,7 +241,7 @@ export const createReview = async (req, res) => {
         }
 
         // Создание нового отзыва и добавление его к существующим отзывам продукта
-        await ProductModel.findByIdAndUpdate(productId, { $push: { reviews : req.body } });
+        await ProductModel.findOneAndUpdate(productId, { $push: { reviews : req.body } });
 
         res.json({
             success: true,
