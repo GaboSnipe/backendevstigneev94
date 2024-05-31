@@ -1,5 +1,5 @@
 import ProductModel from '../models/Products.js'
-import ProductModel from '../models/Review.js'
+import ReviewModel from '../models/Review.js'
 
 export const getLastcategories = async (req, res) => {
     try {
