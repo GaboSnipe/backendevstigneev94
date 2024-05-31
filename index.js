@@ -80,6 +80,7 @@ app.post('/products', checkAuth, ProductsCreateValidation, handleValidationError
 app.post('/orders', checkAuth, OrderCreateValidation, handleValidationErrors, OrdersController.create);
 app.delete('/products/:id', checkAuth, ProductsController.remove);
 app.patch('/products/:id',checkAuth,ProductsCreateValidation,handleValidationErrors,ProductsController.update,);
+app.put('/orders/:orderId', OrdersController.orderStatus);
 
 
 app.listen(process.env.PORT || 8080, (err) => {

@@ -109,6 +109,20 @@ export const getAll = async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
+export const orderStatus = async (req, res) => {
+        const { orderId } = req.params;
+        const { orderStatus } = req.body;
+        try {
+          const updatedOrder = await OrdersModel.findByIdAndUpdate(orderId, { orderStatus }, { new: true });
+          if (!updatedOrder) {
+            return res.status(404).send('Заказ не найден');
+          }
+          res.status(200).json({ message: 'Статус заказа успешно обновлен', order: updatedOrder });
+        } catch (error) {
+          console.error('Ошибка при обновлении статуса заказа:', error);
+          res.status(500).send('Произошла ошибка при обновлении статуса заказа');
+        }
+  };
   
 export const getuserorder = async (req, res) => {
     const userId = req.params.id;
