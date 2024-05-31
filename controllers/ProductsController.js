@@ -221,6 +221,7 @@ export const update = async (req, res) => {
 export const createReview = async (req, res) => {
     const { productId } = req.params;
     const { rating, reviewTitle, reviewText, userId, date } = req.body;
+    console.log(req.body);
     try {    
         await ProductModel.findByIdAndUpdate(productId, { $push: { reviews : req.body } });
         res.json({
