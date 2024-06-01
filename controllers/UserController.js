@@ -165,20 +165,15 @@ export const cartdl = async (req, res) => {
 export const cartclr = async (req, res) => {
   try {
     const userId = req.params.id;
-
     if (!userId) {
       return res.status(400).send('Идентификатор пользователя обязателен');
     }
-
     const user = await UserModel.findById(userId);
-
     if (!user) {
       return res.status(404).send('Пользователь не найден');
     }
-
     user.cartitems = []; 
     await user.save();
-
     return res.status(200).json({ message: 'Корзина пользователя успешно очищена' });
   } catch (error) {
     console.error('Ошибка при очистке корзины пользователя:', error);
@@ -209,12 +204,20 @@ export const makeAdmin = async (req, res) => {
 };
 export const delAdmin = async (req, res) => {
   try {
-    const userId = req.params.id; // Получаем идентификатор пользователя из параметров запроса
-    await UserModel.findByIdAndDelete(userId, { $pull: { roles: 'ADMIN' } }); // Удаляем роль администратора у пользователя
-    res.status(200).send('Пользователь успешно снят с администратора');
+    const userId = req.params.id;
+    if (!userId) {
+      return res.status(400).send('Идентификатор пользователя обязателен');
+    }
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).send('Пользователь не найден');
+    }
+    user.roles = []; 
+    await user.save();
+    return res.status(200).json({ message: 'Пользователь снять с поста администрации' });
   } catch (error) {
-    console.log(error);
-    res.status(500).send('Произошла ошибка при снятии пользователя с администратора');
+    console.error('Ошибка при снятьии пользователья с поста администрации:', error);
+    return res.status(500).json({ message: 'Произошла Ошибка при снятьии пользователья с поста администрации' });
   }
 };
 
