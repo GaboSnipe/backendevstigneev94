@@ -34,6 +34,19 @@ export const addToBlacklist = async (req, res) => {
     res.status(500).json({ message: 'Произошла ошибка при добавлении в черный список' });
   }
 };
+export const removeFromBlacklist = async (req, res) => {
+  try {
+    const result = await BlacklistModel.findOneAndDelete({ email: req.body.email });
+    if (result) {
+      res.status(200).json({ message: 'Адрес успешно удален из черного списка' });
+    } else {
+      res.status(404).json({ message: 'Адрес электронной почты не найден в черном списке' });
+    }
+  } catch (error) {
+    console.error('Ошибка при удалении из черного списка:', error);
+    res.status(500).json({ message: 'Произошла ошибка при удалении из черного списка' });
+  }
+};
 export const getAll = async (req, res) => {
   try {
     const User = await UserModel.find();
