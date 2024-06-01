@@ -38,7 +38,7 @@ app.use(cors({
 
 app.use('/uploads', express.static('uploads'));
 app.post('/blacklist', UserController.addToBlacklist);
-app.remove('/blacklist/remove', UserController.removeFromBlacklist);
+app.delete('/blacklist/remove', UserController.removeFromBlacklist);
 
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login);
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register);
