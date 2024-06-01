@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import fs from 'fs';
 import UserModel from '../models/User.js';
+import BlacklistModel from '../models/Blacklist.js';
 
 const DATA_DIR = '/tmp/data';
 
@@ -49,6 +50,13 @@ function generateSixDigitRandomNumber() {
 
 export const register = async (req, res) => {
   try {
+    const blacklistedEmailUser = await BlacklistModel.findOne({ email: req.body.email });
+
+    if (blacklistedEmailUser) {
+      const message = blacklistedEmailUser.reason;
+      return res.status(403).json({ message: `Этот адрес электронной почты находится в черном списке по причине: ${message}` });
+    }
+
     const existingEmailUser = await UserModel.findOne({ email: req.body.email });
     if (existingEmailUser) {
       return res.status(400).json({ message: 'Этот адрес электронной почты уже используется' });
