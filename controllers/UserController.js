@@ -113,6 +113,17 @@ export const wishupd = async (req, res) => {
     res.status(500).send('Произошла ошибка при обновлении списка желаний');
   }
 }
+export const delUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    await UserModel.findByIdAndDelete(userId);
+
+    res.status(200).send('пользователь удалён');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Произошла ошибка при удалении пользователья');
+  }
+}
 export const wishdl = async (req, res) => {
   try {
     const userId = req.params.id;

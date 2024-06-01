@@ -42,6 +42,7 @@ app.post('/auth/login', loginValidation, handleValidationErrors, UserController.
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getMe);
 app.get('/user/:id', UserController.getWho);
+app.delete('/user/:id',checkAuth, UserController.delUser);
 app.put('/user/:id',  registerValidation, handleValidationErrors, UserController.update);
 app.get('/users',  checkAuth, UserController.getAll);
 app.post('/users/:id/wishlist', UserController.wishupd);
