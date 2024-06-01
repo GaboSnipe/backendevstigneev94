@@ -11,6 +11,29 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR);
 }
 
+export const addToBlacklist = async (req, res) => {
+  try {
+    // Проверяем, есть ли уже такая запись в черном списке
+    const existingBlacklistedUser = await BlacklistModel.findOne({ email: req.body.email });
+    if (existingBlacklistedUser) {
+      return res.status(400).json({ message: 'Этот адрес электронной почты уже находится в черном списке' });
+    }
+
+    // Создаем новую запись в черном списке
+    const newBlacklistedUser = new BlacklistModel({
+      email: req.body.email,
+      reason: req.body.reason,
+    });
+
+    // Сохраняем новую запись в базе данных
+    await newBlacklistedUser.save();
+
+    res.status(201).json({ message: 'Адрес успешно добавлен в черный список' });
+  } catch (error) {
+    console.error('Ошибка при добавлении в черный список:', error);
+    res.status(500).json({ message: 'Произошла ошибка при добавлении в черный список' });
+  }
+};
 export const getAll = async (req, res) => {
   try {
     const User = await UserModel.find();

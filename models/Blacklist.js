@@ -1,15 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const blacklistSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  reason: {
-    type: String,
-    required: true,
-  },
+const blackListSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  reason: { type: String, required: true },
 });
 
-export default mongoose.model('Blacklist', blacklistSchema);
+const BlacklistModel = mongoose.model('Blacklist', blackListSchema);
+
+export default BlacklistModel;
