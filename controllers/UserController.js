@@ -207,6 +207,16 @@ export const makeAdmin = async (req, res) => {
     res.status(500).send('Произошла ошибка при добавлении роли администратора');
   }
 };
+export const delAdmin = async (req, res) => {
+  try {
+    const userId = req.params.id; // Получаем идентификатор пользователя из параметров запроса
+    await UserModel.findByIdAndUpdate(userId, { $pull: { roles: 'ADMIN' } }); // Удаляем роль администратора у пользователя
+    res.status(200).send('Пользователь успешно снят с администратора');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Произошла ошибка при снятии пользователя с администратора');
+  }
+};
 
 export const update = async (req, res) => {
   try {
