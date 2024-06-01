@@ -250,3 +250,31 @@ export const createReview = async (req, res) => {
       });
     }
   };
+  export const deleteReview = async (req, res) => {
+    try {
+      const { productId, userId } = req.params;
+  
+      // Находим продукт по его идентификатору
+      const product = await ProductModel.findById(productId);
+  
+      if (!product) {
+        return res.status(404).json({ message: 'Продукт не найден' });
+      }
+  
+      // Фильтруем отзывы, удаляя тот, у которого userId совпадает с переданным
+      const initialReviewCount = product.reviews.length;
+      product.reviews = product.reviews.filter(review => review.userId !== userId);
+  
+      if (initialReviewCount === product.reviews.length) {
+        return res.status(404).json({ message: 'Отзыв не найден' });
+      }
+  
+      // Сохраняем обновленный продукт
+      await product.save();
+  
+      res.status(200).json({ message: 'Отзыв успешно удален' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Ошибка при удалении отзыва' });
+    }
+  };
