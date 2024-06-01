@@ -210,7 +210,7 @@ export const makeAdmin = async (req, res) => {
 export const delAdmin = async (req, res) => {
   try {
     const userId = req.params.id; // Получаем идентификатор пользователя из параметров запроса
-    await UserModel.findByIdAndUpdate(userId, { $pull: { roles: 'ADMIN' } }); // Удаляем роль администратора у пользователя
+    await UserModel.findByIdAndDelete(userId, { $pull: { roles: 'ADMIN' } }); // Удаляем роль администратора у пользователя
     res.status(200).send('Пользователь успешно снят с администратора');
   } catch (error) {
     console.log(error);
