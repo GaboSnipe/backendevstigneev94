@@ -36,6 +36,7 @@ export const addToBlacklist = async (req, res) => {
 };
 export const removeFromBlacklist = async (req, res) => {
   try {
+    console.log(req.body);
     const result = await BlacklistModel.findOneAndDelete({ email: req.body.email });
     if (result) {
       res.status(200).json({ message: 'Адрес успешно удален из черного списка' });
