@@ -18,7 +18,7 @@ export const ProductsCreateValidation = [
     body('name', 'Введите название товара').isLength({ min: 3 }).isString(),
     body('description', 'Введите описание товара').isLength({ min: 3 }).isString(),
     body('isInStock', 'Введите наличие на складе').isBoolean(),
-    body('productionDate', 'Введите дату производства').isISO8601().toDate(),
+    body('productionDate', 'Введите дату производства').isISO8601(),
     body('price', 'Введите цену').isNumeric(),
     body('productCode', 'Введите код продукта').isString(),
     body('category', 'Неверный формат категории').optional().isString(),
