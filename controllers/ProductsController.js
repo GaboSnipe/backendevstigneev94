@@ -168,18 +168,11 @@ export const getForTags = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
+    const { productionDate, ...rest } = req.body;
+    const formattedDate = productionDate ? new Date(productionDate).toISOString().split('T')[0] : null;
     const doc = new ProductModel({
-      name: req.body.name,
-      description: req.body.description,
-      isInStock: req.body.isInStock,
-      category: req.body.category,
-      availableSizes: req.body.availableSizes,
-      productionDate: req.body.productionDate,
-      brandName: req.body.brandName,
-      productCode: req.body.productCode,
-      imageUrl: req.body.imageUrl,
-      price: req.body.price,
-      additionalImageUrls: req.body.additionalImageUrls,
+      ...rest,
+      productionDate: formattedDate,
     });
 
     const product = await doc.save();
