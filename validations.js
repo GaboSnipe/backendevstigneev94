@@ -18,15 +18,15 @@ export const ProductsCreateValidation = [
     body('name', 'vvedite nazvanie tovatra').isLength({ min: 3 }).isString(),
     body('description', 'vvedite opisanie tovara').isLength({ min: 3 }).isString(),
     body('isInStock', 'vvedite cenu').isBoolean(),
+    body('productionDate', 'vvedite cenu').isDate(),
     body('price', 'vvedite cenu').isNumeric(),
+    body('productCode', 'vvedite cenu').isNumeric(),
     body('category', 'neverni format tegov').optional().isString(),
     body('brandName', 'neverni format tegov').optional().isString(),
     body('reviews', 'neverni format tegov').optional().isArray(),
     body('availableSizes', 'neverni format tegov').optional().isArray(),
     body('imageUrl', 'Неверная ссылка на kartinku').optional().isString(),
     body('additionalImageUrls', 'Неверная ссылка на kartinku').optional().isArray(),
-    body('additionalImageUrls', 'Неверная ссылка на kartinku').optional().isArray(),
-
 
 ];
 export const OrderCreateValidation = [
