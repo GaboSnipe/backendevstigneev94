@@ -167,33 +167,30 @@ export const getForTags = async (req, res) => {
 
 
 export const create = async (req, res) => {
-    try{
-        const doc = new ProductModel({
-            name: req.body.name,
-            description: req.body.description,
-            isInStock: req.body.isInStock,
-            category: req.body.category,
-            availableSizes: req.availableSizes,
-            reviews: req.reviews,
-            produtionDate: req.produtionDate,
-            brandName: req.brandName,
-            productCode: req.productCode,
-            imageUrl: req.imageUrl,
-            price: req.price,
-            additionalImageUrls: req.additionalImageUrls,
-        })
+  try {
+    const doc = new ProductModel({
+      name: req.body.name,
+      description: req.body.description,
+      isInStock: req.body.isInStock,
+      category: req.body.category,
+      availableSizes: req.body.availableSizes,
+      productionDate: req.body.productionDate,
+      brandName: req.body.brandName,
+      productCode: req.body.productCode,
+      imageUrl: req.body.imageUrl,
+      price: req.body.price,
+      additionalImageUrls: req.body.additionalImageUrls,
+    });
 
-        const product = await doc.save();
-
-        res.json(product);
-    }catch (err){
-        console.log(err);
-        res.status(500).json({
-            message: 'ne udalos sozdat tovar'
-        });
-    }
-}
-
+    const product = await doc.save();
+    res.json(product);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: 'Не удалось создать товар',
+    });
+  }
+};
 export const update = async (req, res) => {
     try {
         const productId = req.params.id;

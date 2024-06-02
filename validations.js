@@ -15,18 +15,17 @@ export const registerValidation = [
 ];
 
 export const ProductsCreateValidation = [
-    body('name', 'vvedite nazvanie tovatra').isLength({ min: 3 }).isString(),
-    body('description', 'vvedite opisanie tovara').isLength({ min: 3 }).isString(),
-    body('isInStock', 'vvedite cenu').isBoolean(),
-    body('productionDate', 'vvedite cenu').isDate(),
-    body('price', 'vvedite cenu').isNumeric(),
-    body('productCode', 'vvedite cenu').isNumeric(),
-    body('category', 'neverni format tegov').optional().isString(),
-    body('brandName', 'neverni format tegov').optional().isString(),
-    body('reviews', 'neverni format tegov').optional().isArray(),
-    body('availableSizes', 'neverni format tegov').optional().isArray(),
-    body('imageUrl', 'Неверная ссылка на kartinku').optional().isString(),
-    body('additionalImageUrls', 'Неверная ссылка на kartinku').optional().isArray(),
+    body('name', 'Введите название товара').isLength({ min: 3 }).isString(),
+    body('description', 'Введите описание товара').isLength({ min: 3 }).isString(),
+    body('isInStock', 'Введите наличие на складе').isBoolean(),
+    body('productionDate', 'Введите дату производства').isISO8601().toDate(),
+    body('price', 'Введите цену').isNumeric(),
+    body('productCode', 'Введите код продукта').isString(),
+    body('category', 'Неверный формат категории').optional().isString(),
+    body('brandName', 'Неверный формат производителя').optional().isString(),
+    body('availableSizes', 'Неверный формат размеров').optional().isArray(),
+    body('imageUrl', 'Неверная ссылка на картинку').optional().isString(),
+    body('additionalImageUrls', 'Неверная ссылка на картинки').optional().isArray(),
 
 ];
 export const OrderCreateValidation = [
