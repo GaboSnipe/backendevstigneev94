@@ -190,11 +190,17 @@ export const update = async (req, res) => {
         await ProductModel.updateOne({
             _id: productId,
         },{
-            title: req.body.title,
-            text: req.body.text,
-            imageUrl: req.body.imageUrl,
-            tags: req.body.tags.split(','),
-            user: req.userId,
+          name: req.body.name,
+          description: req.body.description,
+          isInStock: req.body.isInStock,
+          category: req.body.category,
+          availableSizes: req.body.availableSizes,
+          productionDate: req.body.productionDate,
+          price: req.body.price,
+          brandName: req.body.brandName,
+          productCode: req.body.productCode,
+          imageUrl: req.body.imageUrl,
+          additionalImageUrls: req.body.additionalImageUrls,
         })
 
         res.json({

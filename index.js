@@ -81,6 +81,7 @@ app.get('/products/:id', ProductsController.getOne);
 app.post('/products/:productId',checkAuth, ProductsController.createReview);
 app.delete('/products/:productId/reviews/:userId', checkAuth, ProductsController.deleteReview);
 app.post('/products', checkAuth, ProductsCreateValidation, handleValidationErrors, ProductsController.create);
+app.put('/products/:id', checkAuth, ProductsCreateValidation, handleValidationErrors, ProductsController.update);
 app.post('/orders', checkAuth, OrderCreateValidation, handleValidationErrors, OrdersController.create);
 app.delete('/products/:id', checkAuth, ProductsController.remove);
 app.patch('/products/:id',checkAuth,ProductsCreateValidation,handleValidationErrors,ProductsController.update,);
