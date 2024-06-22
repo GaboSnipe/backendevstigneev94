@@ -10,7 +10,7 @@ import { registerValidation, loginValidation, ProductsCreateValidation, OrderCre
 import { handleValidationErrors, checkAuth } from './utils/index.js';
 import { UserController, ProductsController, OrdersController } from './controllers/index.js';
 mongoose    
-     .connect(mongodb+srv://Gaboben_Veliki:2I3b6WceGwO9W3SP@cluster0.hj3cri7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0)
+     .connect("mongodb+srv://Gaboben_Veliki:2I3b6WceGwO9W3SP@cluster0.hj3cri7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     //  process.env.MONGODB_URI
     //  mongodb+srv://Gaboben_Veliki:2I3b6WceGwO9W3SP@cluster0.hj3cri7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
      .then(() => console.log('DB ok'))
